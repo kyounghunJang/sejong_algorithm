@@ -26,12 +26,10 @@ headers = {
 }
 
 # 최근 커밋 정보를 얻는 API 요청
-response = requests.get(f"https://api.github.com/repos/kyounghunJang/2024_Capstone/commits", headers=headers)
+response = requests.get(f"https://api.github.com/repos/kyounghunJang/sejong_algorithm/commits", headers=headers)
 response.raise_for_status()
-
-# 최근 커밋의 작성자 정보
 latest_commit = response.json()[0]
-author = latest_commit["commit"]["author"]["login"]
+author = latest_commit["commit"]["author"]["name"]
 
 notion = Client(auth=args.notion_token)
 
