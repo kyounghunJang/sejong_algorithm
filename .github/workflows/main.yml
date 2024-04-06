@@ -22,4 +22,4 @@ jobs:
         pip install notion-client
         
     - name: Run script
-      run: python upload_alarm.py
+      run: python upload_alarm.py --github_token ${{ secrets.GIT_TOKEN }} --notion_token ${{ secrets.NOTION_TOKEN }}
