@@ -7,7 +7,7 @@ import argparse
 
 korea_tz = pytz.timezone('Asia/Seoul')
 now = datetime.now(korea_tz)
-now_str = now.strftime("%Y-%m-%d %H:%M:%S")
+now_str = now.strftime("%Y-%m-%d")
 
 parser = argparse.ArgumentParser(description='Process some tokens.')
 parser.add_argument('--github_token', type=str, help='GitHub API token')
@@ -35,13 +35,23 @@ notion = Client(auth=args.notion_token)
 
 dec="완료"
 
-my_page = notion.pages.create(
-    parent={"database_id": "64e18e30b01e4b43890b2c15fec1d840"},
-    properties={
-        "Date": {"title": [{"type": "text", "text": {"content": now_str}}]},
-        "Name": {"rich_text": [{"type": "text", "text": {"content": author }}]},
-        "Description": {"rich_text": [{"type": "text", "text": {"content":dec}}]},
-    },
-)
+# 오늘 날짜에 해당하는 페이지가 이미 있는지 확인
+database_id = "64e18e30b01e4b43890b2c15fec1d840"
+pages = notion.databases.query(database_id=database_id)
 
-
+for page in pages["results"]:
+    page_date = page["properties"]["Date"]["title"][0]["text"]["content"]
+    page_author = page["properties"]["Name"]["rich_text"][0]["text"]["content"]
+    if page_date == now_str and page_author == author:
+        print(f"{author}는 이미 오늘 날짜에 페이지를 작성했습니다.")
+        break
+else:
+    # 오늘 날짜에 해당하는 페이지가 없으면 새 페이지를 만듭니다.
+    my_page = notion.pages.create(
+        parent={"database_id": database_id},
+        properties={
+            "Date": {"title": [{"type": "text", "text": {"content": now_str}}]},
+            "Name": {"rich_text": [{"type": "text", "text": {"content": author }}]},
+            "Description": {"rich_text": [{"type": "text", "text": {"content":dec}}]},
+        },
+    )
