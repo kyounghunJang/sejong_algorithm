@@ -31,7 +31,7 @@ response.raise_for_status()
 
 # 최근 커밋의 작성자 정보
 latest_commit = response.json()[0]
-author = latest_commit["commit"]["author"]["name"]
+author = latest_commit["commit"]["author"]["login"]
 
 notion = Client(auth=args.notion_token)
 
