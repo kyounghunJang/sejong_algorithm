@@ -41,22 +41,21 @@ pages = notion.databases.query(database_id=database_id)
 
 cnt=0
 for page in pages["results"]:
-    if cnt >2:
+    if cnt > 4:
         break
     page_date = page["properties"]["Date"]["title"][0]["text"]["content"]
     page_author = page["properties"]["Name"]["rich_text"][0]["text"]["content"]
     if page_date == now_str and page_author == author:
         print(f"{author}는 이미 오늘 날짜에 페이지를 작성했습니다.")
         break
+    else:
+        # 오늘 날짜에 해당하는 페이지가 없으면 새 페이지를 만듭니다.
+        my_page = notion.pages.create(
+            parent={"database_id": database_id},
+            properties={
+                "Date": {"title": [{"type": "text", "text": {"content": now_str}}]},
+                "Name": {"rich_text": [{"type": "text", "text": {"content": author }}]},
+                "Description": {"rich_text": [{"type": "text", "text": {"content":dec}}]},
+            },
+        )
     cnt+=1
-    
-else:
-    # 오늘 날짜에 해당하는 페이지가 없으면 새 페이지를 만듭니다.
-    my_page = notion.pages.create(
-        parent={"database_id": database_id},
-        properties={
-            "Date": {"title": [{"type": "text", "text": {"content": now_str}}]},
-            "Name": {"rich_text": [{"type": "text", "text": {"content": author }}]},
-            "Description": {"rich_text": [{"type": "text", "text": {"content":dec}}]},
-        },
-    )
