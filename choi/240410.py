@@ -15,6 +15,4 @@ for i in range(n):
         idx = stack.pop()
         answer[idx] = inp[i]
     stack.append(i)
-
-print()
 print(*answer)
