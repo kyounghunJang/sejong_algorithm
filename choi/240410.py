@@ -1,7 +1,8 @@
+#오등큰수
 import sys
 from collections import Counter
 
-n = int(sys.stdin.readline())
+n= int(sys.stdin.readline())
 inp = list(map(int, sys.stdin.readline().split()))
 dict = {}
 stack=[]
@@ -15,4 +16,5 @@ for i in range(n):
         answer[idx] = inp[i]
     stack.append(i)
 
+print()
 print(*answer)
