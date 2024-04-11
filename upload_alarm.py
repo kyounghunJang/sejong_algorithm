@@ -58,4 +58,5 @@ for page in pages["results"]:
                 "Description": {"rich_text": [{"type": "text", "text": {"content":dec}}]},
             },
         )
+        break
     cnt+=1
