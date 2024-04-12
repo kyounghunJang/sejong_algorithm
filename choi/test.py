@@ -1,6 +1,7 @@
-from itertools import combinations
+data = "총매출 : 10000원\n순매출 : 10000원\n객수 : 30"
+parsed_data = {}
+for line in data.split('\n'):
+    key, value = line.split(':')
+    parsed_data[key.strip()] = int(value.strip()[:-1])
 
-li = [[2, -1, 4], [-2, -1, 4], [0, -1, 1], [5, -8, -12], [5, 8, 12]]
-comb = combinations(li, 2)
-print(list(comb))
-print(len(list(comb)))
+print(parsed_data)
